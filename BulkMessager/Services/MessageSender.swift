@@ -112,14 +112,28 @@ class MessageSender: ObservableObject {
             .replacingOccurrences(of: "\\", with: "\\\\")
             .replacingOccurrences(of: "\"", with: "\\\"")
 
-        // This approach lets Messages.app automatically choose iMessage or SMS
-        let script = """
+        // Try SMS service first, then iMessage, then generic buddy as fallback
+        let smsScript = """
         tell application "Messages"
-            send "\(sanitizedMessage)" to buddy "\(sanitizedPhone)"
+            set targetService to 1st account whose service type = SMS
+            set targetBuddy to buddy "\(sanitizedPhone)" of targetService
+            send "\(sanitizedMessage)" to targetBuddy
         end tell
         """
 
-        try await runAppleScript(script)
+        let iMessageScript = """
+        tell application "Messages"
+            set targetService to 1st account whose service type = iMessage
+            set targetBuddy to buddy "\(sanitizedPhone)" of targetService
+            send "\(sanitizedMessage)" to targetBuddy
+        end tell
+        """
+
+        do {
+            try await runAppleScript(smsScript)
+        } catch {
+            try await runAppleScript(iMessageScript)
+        }
     }
 
     private func runAppleScript(_ source: String) async throws {
