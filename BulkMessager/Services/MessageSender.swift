@@ -55,6 +55,50 @@ class MessageSender: ObservableObject {
         isSending = false
     }
 
+    // MARK: - Send Messages with Templates
+
+    func sendMessagesWithTemplates(to contacts: [(name: String, phone: String, fields: [String: String])], template: String, templateName: String?) async {
+        guard !contacts.isEmpty else { return }
+        guard !template.isEmpty else { return }
+
+        isSending = true
+        currentIndex = 0
+
+        // Initialize results with placeholder Contact objects
+        results = contacts.map { contactInfo in
+            let placeholderContact = Contact(
+                id: UUID().uuidString,
+                firstName: contactInfo.fields["firstName"] ?? contactInfo.name,
+                lastName: contactInfo.fields["lastName"] ?? "",
+                phoneNumbers: [PhoneNumber(label: "", number: contactInfo.phone)]
+            )
+            return SendResult(contact: placeholderContact, phoneNumber: contactInfo.phone, status: .pending)
+        }
+
+        for index in results.indices {
+            guard isSending else { break }
+
+            currentIndex = index
+            results[index].status = .sending
+
+            // Substitute template variables
+            let personalizedMessage = MessageTemplateEngine.substitute(template, with: contacts[index].fields)
+
+            do {
+                try await sendMessage(personalizedMessage, to: results[index].phoneNumber)
+                results[index].status = .sent
+            } catch {
+                results[index].status = .failed(error.localizedDescription)
+            }
+
+            if index < results.count - 1 && isSending {
+                try? await Task.sleep(nanoseconds: UInt64(delayBetweenMessages * 1_000_000_000))
+            }
+        }
+
+        isSending = false
+    }
+
     func cancel() {
         isSending = false
         for index in results.indices {

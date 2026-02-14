@@ -7,24 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80E51F289A6D4C20B20FD2B4 /* BulkMessagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1CEA2D60604AB99B8494C6; };
-		C4CD24C981D34362831813D6 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58D50B4E41147979E0E64F8; };
-		E9F97E4E7CC047568BF1786B /* SendResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AB33763ED7429BA038858D; };
-		8916939F1A584566BBF32A21 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FBECD0F2BF47B49FDFB03D; };
-		78ABE58D1CC74C5A93347BC8 /* MessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD9D5C630E34BAB8E1FC8E9; };
-		BB93AD9A03674C0E8EA97D31 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F6CF23A46A4EF0B20EFA35; };
+		78ABE58D1CC74C5A93347BC8 /* MessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD9D5C630E34BAB8E1FC8E9 /* MessageSender.swift */; };
+		80E51F289A6D4C20B20FD2B4 /* BulkMessagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1CEA2D60604AB99B8494C6 /* BulkMessagerApp.swift */; };
+		8916939F1A584566BBF32A21 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FBECD0F2BF47B49FDFB03D /* ContactsManager.swift */; };
+		AA11BB22CC33DD44EE55FF66 /* ImportedContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA22BB33CC44DD55EE66FF /* ImportedContact.swift */; };
+		AA77BB88CC99DD00EE11FF22 /* TemplateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AA88BB99CC00DD11EE22FF /* TemplateManager.swift */; };
+		BB22CC33DD44EE55FF66AA77 /* CSVMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB33CC44DD55EE66FF77AA /* CSVMapping.swift */; };
+		BB88CC99DD00EE11FF22AA33 /* CSVImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BB99CC00DD11EE22FF33AA /* CSVImportView.swift */; };
+		BB93AD9A03674C0E8EA97D31 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F6CF23A46A4EF0B20EFA35 /* ContentView.swift */; };
+		C4CD24C981D34362831813D6 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58D50B4E41147979E0E64F8 /* Contact.swift */; };
+		CC33DD44EE55FF66AA77BB88 /* MessageTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC44DD55EE66FF77AA88BB /* MessageTemplate.swift */; };
+		CC99DD00EE11FF22AA33BB44 /* TemplateEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CC00DD11EE22FF33AA44BB /* TemplateEditorView.swift */; };
+		DD00EE11FF22AA33BB44CC55 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DD11EE22FF33AA44BB55CC /* HistoryView.swift */; };
+		DD44EE55FF66AA77BB88CC99 /* MessageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DD55EE66FF77AA88BB99CC /* MessageHistory.swift */; };
+		E9F97E4E7CC047568BF1786B /* SendResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AB33763ED7429BA038858D /* SendResult.swift */; };
+		EE55FF66AA77BB88CC99DD00 /* CSVImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EE66FF77AA88BB99CC00DD /* CSVImportService.swift */; };
+		FF66AA77BB88CC99DD00EE11 /* MessageHistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF77AA88BB99CC00DD11EE /* MessageHistoryManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CED90F60AD1D4D7492A09857 /* BulkMessager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BulkMessager.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF1CEA2D60604AB99B8494C6 /* BulkMessagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkMessagerApp.swift; sourceTree = "<group>"; };
-		D58D50B4E41147979E0E64F8 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
-		67AB33763ED7429BA038858D /* SendResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendResult.swift; sourceTree = "<group>"; };
-		28FBECD0F2BF47B49FDFB03D /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
-		9DD9D5C630E34BAB8E1FC8E9 /* MessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSender.swift; sourceTree = "<group>"; };
-		F9F6CF23A46A4EF0B20EFA35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		00DD11EE22FF33AA44BB55CC /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		0B1989A2016E4A748FFAE93E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11AA22BB33CC44DD55EE66FF /* ImportedContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportedContact.swift; sourceTree = "<group>"; };
+		22BB33CC44DD55EE66FF77AA /* CSVMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVMapping.swift; sourceTree = "<group>"; };
 		2818160CBC474049948198E8 /* BulkMessager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BulkMessager.entitlements; sourceTree = "<group>"; };
+		28FBECD0F2BF47B49FDFB03D /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
+		33CC44DD55EE66FF77AA88BB /* MessageTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTemplate.swift; sourceTree = "<group>"; };
+		44DD55EE66FF77AA88BB99CC /* MessageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistory.swift; sourceTree = "<group>"; };
+		55EE66FF77AA88BB99CC00DD /* CSVImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImportService.swift; sourceTree = "<group>"; };
+		66FF77AA88BB99CC00DD11EE /* MessageHistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageHistoryManager.swift; sourceTree = "<group>"; };
+		67AB33763ED7429BA038858D /* SendResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendResult.swift; sourceTree = "<group>"; };
+		77AA88BB99CC00DD11EE22FF /* TemplateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManager.swift; sourceTree = "<group>"; };
+		88BB99CC00DD11EE22FF33AA /* CSVImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImportView.swift; sourceTree = "<group>"; };
+		99CC00DD11EE22FF33AA44BB /* TemplateEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditorView.swift; sourceTree = "<group>"; };
+		9DD9D5C630E34BAB8E1FC8E9 /* MessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSender.swift; sourceTree = "<group>"; };
+		CED90F60AD1D4D7492A09857 /* BulkMessager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BulkMessager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D58D50B4E41147979E0E64F8 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		EF1CEA2D60604AB99B8494C6 /* BulkMessagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkMessagerApp.swift; sourceTree = "<group>"; };
+		F9F6CF23A46A4EF0B20EFA35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +64,40 @@
 				A3FB007885C84978B811FE04 /* BulkMessager */,
 				983FE6A0488D446BAA452700 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		60C9CCEE1F004D5DB27F0FE2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D58D50B4E41147979E0E64F8 /* Contact.swift */,
+				67AB33763ED7429BA038858D /* SendResult.swift */,
+				11AA22BB33CC44DD55EE66FF /* ImportedContact.swift */,
+				22BB33CC44DD55EE66FF77AA /* CSVMapping.swift */,
+				33CC44DD55EE66FF77AA88BB /* MessageTemplate.swift */,
+				44DD55EE66FF77AA88BB99CC /* MessageHistory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		792598BDA6A442608827FF58 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				28FBECD0F2BF47B49FDFB03D /* ContactsManager.swift */,
+				9DD9D5C630E34BAB8E1FC8E9 /* MessageSender.swift */,
+				55EE66FF77AA88BB99CC00DD /* CSVImportService.swift */,
+				66FF77AA88BB99CC00DD11EE /* MessageHistoryManager.swift */,
+				77AA88BB99CC00DD11EE22FF /* TemplateManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		835E9BDC9C4347D5A0476612 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0B1989A2016E4A748FFAE93E /* Info.plist */,
+				2818160CBC474049948198E8 /* BulkMessager.entitlements */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		983FE6A0488D446BAA452700 /* Products */ = {
@@ -66,39 +120,15 @@
 			path = BulkMessager;
 			sourceTree = "<group>";
 		};
-		60C9CCEE1F004D5DB27F0FE2 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				D58D50B4E41147979E0E64F8 /* Contact.swift */,
-				67AB33763ED7429BA038858D /* SendResult.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		792598BDA6A442608827FF58 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				28FBECD0F2BF47B49FDFB03D /* ContactsManager.swift */,
-				9DD9D5C630E34BAB8E1FC8E9 /* MessageSender.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		DD48531D379E42C28673A4A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F9F6CF23A46A4EF0B20EFA35 /* ContentView.swift */,
+				88BB99CC00DD11EE22FF33AA /* CSVImportView.swift */,
+				99CC00DD11EE22FF33AA44BB /* TemplateEditorView.swift */,
+				00DD11EE22FF33AA44BB55CC /* HistoryView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		835E9BDC9C4347D5A0476612 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				0B1989A2016E4A748FFAE93E /* Info.plist */,
-				2818160CBC474049948198E8 /* BulkMessager.entitlements */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,7 +158,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2620;
 			};
 			buildConfigurationList = 86773A3616B34CF99BD3E392 /* Build configuration list for PBXProject "BulkMessager" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -159,64 +189,22 @@
 				8916939F1A584566BBF32A21 /* ContactsManager.swift in Sources */,
 				78ABE58D1CC74C5A93347BC8 /* MessageSender.swift in Sources */,
 				BB93AD9A03674C0E8EA97D31 /* ContentView.swift in Sources */,
+				AA11BB22CC33DD44EE55FF66 /* ImportedContact.swift in Sources */,
+				BB22CC33DD44EE55FF66AA77 /* CSVMapping.swift in Sources */,
+				CC33DD44EE55FF66AA77BB88 /* MessageTemplate.swift in Sources */,
+				DD44EE55FF66AA77BB88CC99 /* MessageHistory.swift in Sources */,
+				EE55FF66AA77BB88CC99DD00 /* CSVImportService.swift in Sources */,
+				FF66AA77BB88CC99DD00EE11 /* MessageHistoryManager.swift in Sources */,
+				AA77BB88CC99DD00EE11FF22 /* TemplateManager.swift in Sources */,
+				BB88CC99DD00EE11FF22AA33 /* CSVImportView.swift in Sources */,
+				CC99DD00EE11FF22AA33BB44 /* TemplateEditorView.swift in Sources */,
+				DD00EE11FF22AA33BB44CC55 /* HistoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		ED35F7C450DA48A88D92276B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		D8103D86CB3B4818B8012549 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-			};
-			name = Release;
-		};
 		09DD32064B1D4D0CB7B61799 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -224,6 +212,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = BulkMessager/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -238,6 +229,110 @@
 			};
 			name = Debug;
 		};
+		D8103D86CB3B4818B8012549 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		ED35F7C450DA48A88D92276B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
 		FA9B6BEE1209401A8FD5C1E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -245,6 +340,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = BulkMessager/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -262,20 +360,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		86773A3616B34CF99BD3E392 /* Build configuration list for PBXProject "BulkMessager" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ED35F7C450DA48A88D92276B /* Debug */,
-				D8103D86CB3B4818B8012549 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		3A604CB9CBD44E9796ECA26F /* Build configuration list for PBXNativeTarget "BulkMessager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				09DD32064B1D4D0CB7B61799 /* Debug */,
 				FA9B6BEE1209401A8FD5C1E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86773A3616B34CF99BD3E392 /* Build configuration list for PBXProject "BulkMessager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED35F7C450DA48A88D92276B /* Debug */,
+				D8103D86CB3B4818B8012549 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

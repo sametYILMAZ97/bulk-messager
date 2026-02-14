@@ -3,22 +3,52 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var contactsManager = ContactsManager()
     @StateObject private var messageSender = MessageSender()
+    @StateObject private var csvImportService = CSVImportService()
+    @StateObject private var templateManager = TemplateManager()
+    @StateObject private var historyManager = MessageHistoryManager()
     @State private var messageText: String = "Hey! I changed my phone number. My new number is: [YOUR NEW NUMBER]. Please save it! 😊"
     @State private var showSendConfirmation: Bool = false
     @State private var selectedTab: Tab? = .contacts
+    @State private var selectedTemplate: MessageTemplate?
 
     enum Tab: String, CaseIterable {
         case contacts = "Contacts"
+        case imported = "Imported"
         case selected = "Selected"
+        case templates = "Templates"
         case send = "Send"
         case results = "Results"
+        case history = "History"
     }
 
     var body: some View {
         NavigationSplitView {
-            List(Tab.allCases, id: \.self, selection: $selectedTab) { tab in
-                NavigationLink(value: tab) {
-                    Label(tab.rawValue, systemImage: iconForTab(tab))
+            List(selection: $selectedTab) {
+                Section("Manage") {
+                    NavigationLink(value: Tab.contacts) {
+                        Label("Contacts", systemImage: "person.2")
+                    }
+                    NavigationLink(value: Tab.imported) {
+                        Label("Imported", systemImage: "doc.text")
+                    }
+                    NavigationLink(value: Tab.selected) {
+                        Label("Selected", systemImage: "checkmark.circle")
+                    }
+                    NavigationLink(value: Tab.templates) {
+                        Label("Templates", systemImage: "text.badge.star")
+                    }
+                }
+                
+                Section("Actions") {
+                    NavigationLink(value: Tab.send) {
+                        Label("Compose & Send", systemImage: "paperplane")
+                    }
+                    NavigationLink(value: Tab.results) {
+                        Label("Results", systemImage: "list.bullet.clipboard")
+                    }
+                    NavigationLink(value: Tab.history) {
+                        Label("History", systemImage: "clock.arrow.circlepath")
+                    }
                 }
             }
             .listStyle(.sidebar)
@@ -28,12 +58,18 @@ struct ContentView: View {
                 switch tab {
                 case .contacts:
                     contactsListView
+                case .imported:
+                    importedContactsView
                 case .selected:
                     selectedContactsView
+                case .templates:
+                    templatesView
                 case .send:
                     composeView
                 case .results:
                     resultsView
+                case .history:
+                    historyView
                 }
             } else {
                 Text("Select a tab")
@@ -58,9 +94,12 @@ struct ContentView: View {
     private func iconForTab(_ tab: Tab) -> String {
         switch tab {
         case .contacts: return "person.2"
+        case .imported: return "doc.text"
         case .selected: return "checkmark.circle"
+        case .templates: return "text.badge.star"
         case .send: return "paperplane"
         case .results: return "list.bullet.clipboard"
+        case .history: return "clock.arrow.circlepath"
         }
     }
 
@@ -77,16 +116,22 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .listRowSeparator(.hidden)
                     } else if contactsManager.filteredContacts.isEmpty {
-                        VStack(spacing: 8) {
+                        VStack(spacing: 16) {
                             Image(systemName: "person.slash")
-                                .font(.system(size: 40))
+                                .font(.system(size: 48))
                                 .foregroundColor(.secondary)
-                            Text(contactsManager.searchText.isEmpty ? "No contacts with phone numbers found" : "No contacts match your search")
-                                .foregroundColor(.secondary)
+                            Text(contactsManager.searchText.isEmpty ? "No contacts found" : "No matches")
+                                .font(.title2.bold())
+                            if contactsManager.searchText.isEmpty {
+                                Text("Contacts with phone numbers will appear here.")
+                                    .foregroundColor(.secondary)
+                            } else {
+                                Text("Try adjusting your search query.")
+                                    .foregroundColor(.secondary)
+                            }
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.vertical, 40)
-                        .listRowSeparator(.hidden)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(nsColor: .controlBackgroundColor))
                     } else {
                         ForEach(contactsManager.filteredContacts) { contact in
                             ContactRow(
@@ -121,7 +166,7 @@ struct ContentView: View {
                             Label("Actions", systemImage: "ellipsis.circle")
                         }
                     }
-                    
+
                     ToolbarItem(placement: .status) {
                         Text("\(contactsManager.selectedCount) selected")
                             .font(.caption)
@@ -178,7 +223,9 @@ struct ContentView: View {
 
     private var selectedContactsView: some View {
         VStack(spacing: 0) {
-            if contactsManager.selectedContacts.isEmpty {
+            let allSelectedContacts = contactsManager.selectedContacts.count + csvImportService.importedContacts.filter { $0.isSelected }.count
+
+            if allSelectedContacts == 0 {
                 VStack(spacing: 16) {
                     Image(systemName: "checkmark.circle.badge.xmark")
                         .font(.system(size: 60))
@@ -195,39 +242,22 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 List {
-                    ForEach(contactsManager.selectedContacts) { contact in
-                        HStack(spacing: 12) {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.accentColor.opacity(0.2))
-                                    .frame(width: 32, height: 32)
-                                Text(contact.initials)
-                                    .font(.system(size: 12, weight: .bold))
-                                    .foregroundColor(.accentColor)
+                    // System Contacts
+                    if !contactsManager.selectedContacts.isEmpty {
+                        Section("System Contacts") {
+                            ForEach(contactsManager.selectedContacts) { contact in
+                                systemContactRow(contact)
                             }
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(contact.fullName)
-                                    .font(.headline)
-                                if let phone = contact.selectedPhoneNumber {
-                                    Text(phone.number)
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-
-                            Spacer()
-
-                            Button(action: {
-                                contactsManager.toggleSelection(for: contact.id)
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.secondary)
-                                    .font(.title3)
-                            }
-                            .buttonStyle(.plain)
                         }
-                        .padding(.vertical, 4)
+                    }
+
+                    // Imported Contacts
+                    if !csvImportService.importedContacts.filter({ $0.isSelected }).isEmpty {
+                        Section("Imported Contacts") {
+                            ForEach(csvImportService.importedContacts.filter { $0.isSelected }) { contact in
+                                importedContactRow(contact)
+                            }
+                        }
                     }
                 }
                 .listStyle(.inset)
@@ -235,16 +265,17 @@ struct ContentView: View {
                     ToolbarItem(placement: .primaryAction) {
                         Button("Deselect All") {
                             contactsManager.deselectAll()
+                            csvImportService.deselectAll()
                         }
                     }
                     ToolbarItem(placement: .status) {
-                        Text("\(contactsManager.selectedCount) contacts selected")
+                        Text("\(allSelectedContacts) contacts selected")
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .padding(.horizontal)
                     }
                 }
-                
+
                 // Bottom action bar
                 HStack {
                     Spacer()
@@ -261,13 +292,110 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Helper Row Functions
+
+    private func systemContactRow(_ contact: Contact) -> some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(Color.accentColor.opacity(0.2))
+                    .frame(width: 32, height: 32)
+                Text(contact.initials)
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.accentColor)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(contact.fullName)
+                    .font(.headline)
+                if let phone = contact.selectedPhoneNumber {
+                    Text(phone.number)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            Spacer()
+
+            Button(action: {
+                contactsManager.toggleSelection(for: contact.id)
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.secondary)
+                    .font(.title3)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.vertical, 4)
+    }
+
+    private func importedContactRow(_ contact: ImportedContact) -> some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(Color.orange.opacity(0.2))
+                    .frame(width: 32, height: 32)
+                Text(contact.initials)
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.orange)
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(contact.fullName)
+                    .font(.headline)
+                Text(contact.phoneNumber)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
+
+            Image(systemName: "doc.text")
+                .foregroundColor(.orange)
+                .font(.caption)
+
+            Button(action: {
+                csvImportService.toggleSelection(for: contact.id)
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.secondary)
+                    .font(.title3)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.vertical, 4)
+    }
+
+    // MARK: - Imported Contacts View
+
+    private var importedContactsView: some View {
+        CSVImportView()
+            .environmentObject(csvImportService)
+    }
+
+    // MARK: - Templates View
+
+    private var templatesView: some View {
+        TemplateEditorView()
+            .environmentObject(templateManager)
+    }
+
+    // MARK: - History View
+
+    private var historyView: some View {
+        HistoryView()
+            .environmentObject(historyManager)
+    }
+
     // MARK: - Compose View
 
     private var composeView: some View {
-        Form {
+        let totalSelectedCount = contactsManager.selectedCount + csvImportService.importedContacts.filter { $0.isSelected }.count
+
+        return Form {
             Section("Recipients") {
                 HStack {
-                    Label("\(contactsManager.selectedCount) contacts selected", systemImage: "person.2.fill")
+                    Label("\(totalSelectedCount) contacts selected", systemImage: "person.2.fill")
                     Spacer()
                     Button("Edit Recipients") {
                         selectedTab = .selected
@@ -275,7 +403,31 @@ struct ContentView: View {
                     .buttonStyle(.link)
                 }
             }
-            
+
+            Section("Template") {
+                Picker("Select Template", selection: $selectedTemplate) {
+                    Text("None (Custom Message)").tag(nil as MessageTemplate?)
+                    ForEach(templateManager.templates) { template in
+                        Text(template.name).tag(template as MessageTemplate?)
+                    }
+                }
+                .onChange(of: selectedTemplate) { _, newTemplate in
+                    if let template = newTemplate {
+                        messageText = template.content
+                    }
+                }
+
+                if selectedTemplate != nil {
+                    HStack {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.blue)
+                        Text("Variables like {{name}}, {{company}} will be automatically replaced for each contact")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+
             Section("Message Content") {
                 VStack(alignment: .leading, spacing: 8) {
                     TextEditor(text: $messageText)
@@ -283,20 +435,23 @@ struct ContentView: View {
                         .frame(minHeight: 100)
                         .padding(4)
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.2), lineWidth: 1))
-                    
+
                     HStack {
                         Text("\(messageText.count) characters")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Button("Reset Template") {
-                            messageText = "Hey! I changed my phone number. My new number is: [YOUR NEW NUMBER]. Please save it! 😊"
+
+                        if selectedTemplate != nil {
+                            Button("Edit Template") {
+                                selectedTab = .templates
+                            }
+                            .controlSize(.small)
                         }
-                        .controlSize(.small)
                     }
                 }
                 .padding(.vertical, 4)
-                
+
                 if messageText.contains("[YOUR NEW NUMBER]") {
                     HStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle.fill")
@@ -315,20 +470,65 @@ struct ContentView: View {
                     .cornerRadius(8)
                 }
             }
-            
+
             Section("Preview") {
-                HStack {
-                    Spacer()
-                    Text(messageText.isEmpty ? "Message preview..." : messageText)
-                        .padding(12)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(16)
-                        .frame(maxWidth: 300, alignment: .trailing)
+                if MessageTemplateEngine.extractVariables(from: messageText).isEmpty {
+                    // Simple preview without variables
+                    HStack {
+                        Spacer()
+                        Text(messageText.isEmpty ? "Message preview..." : messageText)
+                            .padding(12)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(16)
+                            .frame(maxWidth: 300, alignment: .trailing)
+                    }
+                    .padding(.vertical, 8)
+                } else {
+                    // Preview with variables for first contact
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Preview with first contact:")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+
+                        if let firstContact = contactsManager.selectedContacts.first {
+                            let preview = MessageTemplateEngine.substitute(messageText, with: firstContact.customFields)
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .trailing, spacing: 4) {
+                                    Text(firstContact.fullName)
+                                        .font(.caption.bold())
+                                        .foregroundColor(.secondary)
+                                    Text(preview)
+                                        .padding(12)
+                                        .background(Color.blue)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(16)
+                                        .frame(maxWidth: 300, alignment: .trailing)
+                                }
+                            }
+                        } else if let firstImported = csvImportService.importedContacts.first(where: { $0.isSelected }) {
+                            let preview = MessageTemplateEngine.substitute(messageText, with: firstImported.customFields)
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .trailing, spacing: 4) {
+                                    Text(firstImported.fullName)
+                                        .font(.caption.bold())
+                                        .foregroundColor(.secondary)
+                                    Text(preview)
+                                        .padding(12)
+                                        .background(Color.blue)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(16)
+                                        .frame(maxWidth: 300, alignment: .trailing)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.vertical, 8)
                 }
-                .padding(.vertical, 8)
             }
-            
+
             Section("Settings") {
                 VStack(alignment: .leading) {
                     HStack {
@@ -340,7 +540,7 @@ struct ContentView: View {
                         .foregroundColor(.secondary)
                 }
             }
-            
+
             Section {
                 Button(action: { showSendConfirmation = true }) {
                     HStack {
@@ -353,7 +553,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .disabled(contactsManager.selectedCount == 0 || messageText.isEmpty || messageSender.isSending)
+                .disabled(totalSelectedCount == 0 || messageText.isEmpty || messageSender.isSending)
             }
         }
         .formStyle(.grouped)
@@ -363,14 +563,60 @@ struct ContentView: View {
             Button("Send") {
                 selectedTab = .results
                 Task {
-                    await messageSender.sendMessages(
-                        to: contactsManager.selectedContacts,
-                        message: messageText
-                    )
+                    await sendMessagesToAllSelectedContacts()
                 }
             }
         } message: {
-            Text("Ready to send to \(contactsManager.selectedCount) contacts?\n\nMessages will be sent via iMessage or SMS automatically.")
+            Text("Ready to send to \(totalSelectedCount) contacts?\n\nMessages will be sent via iMessage or SMS automatically.")
+        }
+    }
+
+    // MARK: - Send Messages Helper
+
+    private func sendMessagesToAllSelectedContacts() async {
+        // Combine system and imported contacts
+        var allContactsToSend: [(name: String, phone: String, fields: [String: String])] = []
+
+        // Add system contacts
+        for contact in contactsManager.selectedContacts {
+            if let phone = contact.selectedPhoneNumber {
+                allContactsToSend.append((
+                    name: contact.fullName,
+                    phone: phone.number,
+                    fields: contact.customFields
+                ))
+            }
+        }
+
+        // Add imported contacts
+        for contact in csvImportService.importedContacts.filter({ $0.isSelected }) {
+            allContactsToSend.append((
+                name: contact.fullName,
+                phone: contact.phoneNumber,
+                fields: contact.customFields
+            ))
+        }
+
+        // Send messages with template substitution
+        await messageSender.sendMessagesWithTemplates(
+            to: allContactsToSend,
+            template: messageText,
+            templateName: selectedTemplate?.name
+        )
+
+        // Save to history
+        for result in messageSender.results {
+            let status: HistoryStatus = result.status.isSuccess ? .sent : (result.status.isFailed ? .failed : .cancelled)
+            let messageContent = MessageTemplateEngine.substitute(messageText, with: result.contact.customFields)
+
+            let historyEntry = MessageHistory(
+                recipientName: result.contact.fullName,
+                recipientPhone: result.phoneNumber,
+                messageContent: messageContent,
+                status: status,
+                templateUsed: selectedTemplate?.name
+            )
+            historyManager.addHistory(historyEntry)
         }
     }
 
@@ -410,7 +656,7 @@ struct ContentView: View {
                         summaryBadge(count: messageSender.summary.sent, label: "Sent", color: .green)
                         summaryBadge(count: messageSender.summary.failed, label: "Failed", color: .red)
                         summaryBadge(count: messageSender.summary.pending, label: "Pending", color: .orange)
-                        
+
                         Divider()
                             .frame(height: 30)
 
@@ -465,7 +711,7 @@ struct ContentView: View {
                                     .font(.caption)
                                     .foregroundColor(.red)
                             }
-                            
+
                             Text(result.status.description)
                                 .font(.caption)
                                 .padding(.horizontal, 8)

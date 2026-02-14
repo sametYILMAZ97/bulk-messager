@@ -59,40 +59,51 @@ class ContactsManager: ObservableObject {
         errorMessage = nil
 
         do {
-            let keysToFetch: [CNKeyDescriptor] = [
-                CNContactGivenNameKey as CNKeyDescriptor,
-                CNContactFamilyNameKey as CNKeyDescriptor,
-                CNContactPhoneNumbersKey as CNKeyDescriptor,
-                CNContactIdentifierKey as CNKeyDescriptor,
-                CNContactOrganizationNameKey as CNKeyDescriptor
-            ]
+            // Perform heavy contacts fetch off the main actor
+            let fetchedContacts: [Contact] = try await withCheckedThrowingContinuation { continuation in
+                Task.detached(priority: .userInitiated) {
+                    let store = CNContactStore()
+                    let keysToFetch: [CNKeyDescriptor] = [
+                        CNContactGivenNameKey as CNKeyDescriptor,
+                        CNContactFamilyNameKey as CNKeyDescriptor,
+                        CNContactPhoneNumbersKey as CNKeyDescriptor,
+                        CNContactIdentifierKey as CNKeyDescriptor,
+                        CNContactOrganizationNameKey as CNKeyDescriptor
+                    ]
 
-            let request = CNContactFetchRequest(keysToFetch: keysToFetch)
-            request.sortOrder = .givenName
+                    let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+                    request.sortOrder = .givenName
 
-            var fetchedContacts: [Contact] = []
+                    var result: [Contact] = []
 
-            try store.enumerateContacts(with: request) { cnContact, _ in
-                let phoneNumbers = cnContact.phoneNumbers.map { phoneNumber in
-                    PhoneNumber(
-                        label: phoneNumber.label ?? "",
-                        number: phoneNumber.value.stringValue
-                    )
+                    do {
+                        try store.enumerateContacts(with: request) { cnContact, _ in
+                            let phoneNumbers = cnContact.phoneNumbers.map { phoneNumber in
+                                PhoneNumber(
+                                    label: phoneNumber.label ?? "",
+                                    number: phoneNumber.value.stringValue
+                                )
+                            }
+
+                            guard !phoneNumbers.isEmpty else { return }
+
+                            let contact = Contact(
+                                id: cnContact.identifier,
+                                firstName: cnContact.givenName,
+                                lastName: cnContact.familyName,
+                                phoneNumbers: phoneNumbers
+                            )
+
+                            result.append(contact)
+                        }
+                        continuation.resume(returning: result)
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
                 }
-
-                // Only include contacts that have at least one phone number
-                guard !phoneNumbers.isEmpty else { return }
-
-                let contact = Contact(
-                    id: cnContact.identifier,
-                    firstName: cnContact.givenName,
-                    lastName: cnContact.familyName,
-                    phoneNumbers: phoneNumbers
-                )
-
-                fetchedContacts.append(contact)
             }
 
+            // Back on main actor (class is @MainActor) to update state
             contacts = fetchedContacts
             filterContacts()
             isLoading = false
